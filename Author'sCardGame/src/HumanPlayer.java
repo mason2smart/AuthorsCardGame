@@ -41,7 +41,7 @@ public class HumanPlayer extends AI{
 	{
 		humanFrame.dispose();
 	}
-	public void initComboChoide()
+	public void initComboChoice()
 	{
 		
 	}
@@ -76,7 +76,6 @@ public class HumanPlayer extends AI{
 					cardToGet = randy.nextInt(neededCards.size());
 			//		return neededCards.get(cardToGet);
 					}
-					
 				}
 			if(isEmpty()==false)
 			{
