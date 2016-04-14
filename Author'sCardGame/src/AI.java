@@ -16,9 +16,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 
 public class AI extends JPanel {
-	private ArrayList<Card> hand;
+	public ArrayList<Card> hand;
 	private int handAnalysis[][];
-	private ArrayList<Card> neededCards;
+	public ArrayList<Card> neededCards;
 	JPanel playerPanel;
 	JScrollPane neededScrollPane;
 	JList<String> neededList;
@@ -135,7 +135,7 @@ public void addCard(Card card)
 {
 	hand.add(card);
 }
-private void analyzeHand()
+protected void analyzeHand()
 {
 	primaryPref = 0;//how many cards it needs most
 	secondaryPref =0;//how many cards it needs second most

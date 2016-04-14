@@ -15,6 +15,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -58,6 +59,7 @@ class CardGame extends JFrame {
 	boolean StillRunning=true;//if window is not shut = true
 	boolean gameOver = false;//if all players out of hands = true
    	Thread Rotation;
+   	private int playerturn;
    	public CardGame(int numGame, int numPlayers, ArrayList<CardGame> CG) 
 	{	
    	  addWindowListener(new WindowAdapter(){//when closed
@@ -130,11 +132,28 @@ class CardGame extends JFrame {
 }
 	public void createPlayers(int numPlayers)//create the desired number of players
 	{
+		if(numPlayers>4)
+		{
 		for (int x=0; x<numPlayers; x++)
 		{
 			Players.add(new AI(x, History));//gives history ArrayList to players to update as well as unique player number
 		}
-	}
+		}
+		else
+		{
+			Random randy = new Random();
+			 playerturn = randy.nextInt(numPlayers);//assigns human player a random turn
+			for (int x=0; x<playerturn; x++)
+			{
+				Players.add(new AI(x, History));//gives history ArrayList to players to update as well as unique player number
+			}
+			Players.add(new HumanPlayer(playerturn,History));
+			for (int x = playerturn+1; x<numPlayers;x++)
+			{
+				Players.add(new AI(x, History));//gives history ArrayList to players to update as well as unique player number
+
+			}
+	}}
 	public void gameHistory()//updates game history window
 	{
 		histArea = new JTextArea();
@@ -186,7 +205,14 @@ class CardGame extends JFrame {
 	{
 		for (int x=0;x<numPlayers;x++)
 		{
+			if (x!=playerturn)
+			{
 			BooksList.add(new JLabel("Player  "+ x + "   Books Made:  "+(Players.get(x).Books.size()/4+ "     ")));
+			}
+			else
+			{
+			BooksList.add(new JLabel("Human  "+ x + "   Books Made:  "+(Players.get(x).Books.size()/4+ "     ")));
+			}
 			BooksList.get(x).setFont(GamerFont.deriveFont(14f));
 			BooksList.get(x).setForeground(Color.green);
 			BooksList.get(x).setPreferredSize(new Dimension(200,200));
@@ -326,53 +352,9 @@ class CardGame extends JFrame {
 				Players.get(x).addCard(new BetterCard(gameDeck.deal()));//else add BetterCard
 			}
 		
-		}
-	}
+		}}
 	
-	
-/*	public void selectCard() //human player only 
-		{
-			CardOptions = new JComboBox<String>(Choices);
-			CardOptions.setSelectedIndex(0);
-			CardOptions.addActionListener(new ActionListener()
-			{
-				public void actionPerformed(ActionEvent e) {
-			        selectedCard = (Card) CardOptions.getSelectedItem();//gets currently selected number of human players
-				}});
-		   ((JLabel) (CardOptions).getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);//Center objects in Drop-Down Box
-
-			CardOptions.setBorder(BorderFactory.createLineBorder(Color.green, 2, true));//create border around button
-			JLabel SelectorInstructions = new JLabel("     Number of Human Players: ");//also a cheap spacing fix as well as instructional label..
-			Font GamerFont;
-					try {
-						GamerFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("A.ttf"));//set font
-					     SelectorInstructions.setFont(GamerFont.deriveFont(16f));
-					     CardOptions.setFont(GamerFont.deriveFont(14f));
-					} catch (FontFormatException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-				     //Derive and return a 12 pt version:
-				     //Need to use float otherwise
-				     //it would be interpreted as style
-					Color GamerColor = new Color(71,225,12);
-					SelectorInstructions.setForeground(GamerColor);
-					SelectorInstructions.setOpaque(false);
-				
-				// TODO Auto-generated catch block
-
-			btnPane.add(SelectorInstructions);
-			btnPane.add(CardOptions);
-		}
-	*/
-	}
-	
-	
-	
+}
 	
 	
 	
