@@ -221,9 +221,16 @@ class CardGame extends JFrame {
 	}
 	public void UpdateBooks()//refreshes the number of books shown
 	{
-		for(int x=0;x<BooksList.size();x++)
+		for (int x=0;x<numPlayers;x++)
 		{
-			BooksList.get(x).setText("Player  "+ x + "   Books Made:  "+(Players.get(x).Books.size()/4+ "     "));
+			if (x!=playerturn)
+			{
+			BooksList.add(new JLabel("Player  "+ x + "   Books Made:  "+(Players.get(x).Books.size()/4+ "     ")));
+			}
+			else
+			{
+			BooksList.add(new JLabel("Human  "+ x + "   Books Made:  "+(Players.get(x).Books.size()/4+ "     ")));
+			}
 		}
 	}
 	public void initGame()
