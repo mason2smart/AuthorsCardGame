@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_Lu2mIJufEeWSf6ucPgTJ8A" name="NewModel">
+  <packagedElement xmi:type="uml:Package" xmi:id="_l-DzEJuhEeWSf6ucPgTJ8A" name="AuthorsCardGame">
+    <eAnnotations xmi:id="_OU3FcJunEeWSf6ucPgTJ8A"/>
+    <eAnnotations xmi:id="_PHL6QJunEeWSf6ucPgTJ8A"/>
+    <eAnnotations xmi:id="_QJkkUJunEeWSf6ucPgTJ8A"/>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_yL76oJugEeWSf6ucPgTJ8A" name="Runnable" isAbstract="true">
+      <ownedOperation xmi:id="_DAWgwJumEeWSf6ucPgTJ8A" name="run" isAbstract="true"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_Uir90JugEeWSf6ucPgTJ8A" name="CardGameOptions">
+      <ownedAttribute xmi:id="_MIYuMJukEeWSf6ucPgTJ8A" name="ArrayList&lt;Runnable>" visibility="private" type="_yL76oJugEeWSf6ucPgTJ8A">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_cvwJEJukEeWSf6ucPgTJ8A"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Sl0EoJukEeWSf6ucPgTJ8A"/>
+        <defaultValue xmi:type="uml:Interval" xmi:id="_XEYsQZulEeWSf6ucPgTJ8A"/>
+      </ownedAttribute>
+      <ownedOperation xmi:id="_d1_DQJuiEeWSf6ucPgTJ8A" name="NewGame">
+        <ownedParameter xmi:id="_fSmD0JulEeWSf6ucPgTJ8A" name="int GameNumber:Runs Instances Card Games in Threads" direction="inout"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_wFoK4JufEeWSf6ucPgTJ8A" name="RunGame" isActive="true">
+      <ownedOperation xmi:id="_6emw4JufEeWSf6ucPgTJ8A" name="Executes Thread CardGameOptions"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="_JvU3AJuiEeWSf6ucPgTJ8A" name="Enumeration1"/>
+    <packagedElement xmi:type="uml:Abstraction" xmi:id="_9YDwoJunEeWSf6ucPgTJ8A" name="Runnable" client="_Uir90JugEeWSf6ucPgTJ8A" supplier="_wFoK4JufEeWSf6ucPgTJ8A">
+      <eAnnotations xmi:id="_Ol4ukJuoEeWSf6ucPgTJ8A"/>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>
