@@ -211,7 +211,7 @@ class CardGame extends JFrame {
 			}
 			else
 			{
-			BooksList.add(new JLabel("Human  "+ x + "   Books Made:  "+(Players.get(x).Books.size()/4+ "     ")));
+			BooksList.add(new JLabel("Human   "+ x + "   Books Made:  "+(Players.get(x).Books.size()/4+ "     ")));
 			}
 			BooksList.get(x).setFont(GamerFont.deriveFont(14f));
 			BooksList.get(x).setForeground(Color.green);
@@ -225,13 +225,20 @@ class CardGame extends JFrame {
 		{
 			if (x!=playerturn)
 			{
-			BooksList.add(new JLabel("Player  "+ x + "   Books Made:  "+(Players.get(x).Books.size()/4+ "     ")));
+			BooksList.set(x, new JLabel("Player  "+ x + "   Books Made:  "+(Players.get(x).Books.size()/4+ "     ")));
 			}
 			else
 			{
-			BooksList.add(new JLabel("Human  "+ x + "   Books Made:  "+(Players.get(x).Books.size()/4+ "     ")));
+			BooksList.set(x, new JLabel("Human   "+ x + "   Books Made:  "+(Players.get(x).Books.size()/4+ "     ")));
 			}
+			BooksList.get(x).setFont(GamerFont.deriveFont(14f));
+			BooksList.get(x).setForeground(Color.green);
+			BooksList.get(x).setPreferredSize(new Dimension(200,200));
+			Books.remove(x);
+			Books.add(BooksList.get(x), x);
+			Books.repaint();
 		}
+		
 	}
 	public void initGame()
 	{
