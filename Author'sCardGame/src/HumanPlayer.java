@@ -16,9 +16,10 @@ public class HumanPlayer extends AI{
 	JFrame humanFrame;
 	JPanel humanPanel;
 	private JButton select;
-	private JComboBox choices;
+	private JComboBox<String> choices;
 	private int cardToGet;
 	private Boolean cardNotChosen;
+	Thread swag;
 	public HumanPlayer(int x, ArrayList<String> history)
 	{
 		super(x, history);
@@ -29,7 +30,7 @@ public class HumanPlayer extends AI{
 	}
 	public void initHumanPanel()
 	{
-		JComboBox choices = new JComboBox();
+		 choices = new JComboBox<String>();
 		 select = new JButton("Submit"); 
 
 				humanFrame = new JFrame();		
@@ -54,23 +55,21 @@ public class HumanPlayer extends AI{
 	}}
 	public void closeHumanFrame()
 	{
-		cardNotChosen=true;
 		humanPanel.removeAll();
 		humanFrame.dispose();
 	}
 	public void initComboChoice(ArrayList<Card> hand, int lim)
 	{
 		cardNotChosen=true;
-		JComboBox choices = new JComboBox();
 		for(int i = 0;i<lim-1;i++)
 		{
-			choices.addItem(hand.get(i));
+			choices.addItem(hand.get(i).toString());
 		}
 			select.addActionListener(new ActionListener()
 			{
 				public void actionPerformed(ActionEvent e)
 				{
-					   new Thread(){//does it in new thread not to freeze up GUI() interface
+					    swag=new Thread(){//does it in new thread not to freeze up GUI() interface
 		                public void run(){
 		                  try {
 			                    select.setText("Requesting Card...");
@@ -78,18 +77,21 @@ public class HumanPlayer extends AI{
 		                    Thread.sleep(1000);
 							cardNotChosen=false;
 		                    this.interrupt();//ends thread
-		                 } catch (InterruptedException exc) {
+		                    while(true)
+		                    {
+		                    System.out.println("Not interrupted!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		                    }
+		                    } catch (InterruptedException exc) {
 		                	 System.out.println("Thread Error on StartGame Btn");
 		               }
 		             }
-		           }.start();
+		           };swag.start();
 				}}	);
 	}
 	public boolean RequestCard(AI robot)//requests card from other player
 	{
-		initHumanPanel();
 		super.analyzeHand();
-		 cardToGet=0;
+		initHumanPanel();
 		int x = neededCards.size();
 		if(hand.size()==1)//fixes out of bounds error
 		{
@@ -103,7 +105,9 @@ public class HumanPlayer extends AI{
 				while(cardNotChosen)
 				{
 					
-				}
+				} 
+				swag.interrupt();
+				
 			//	return neededCards.get(primaryPref);
 			}
 			else
@@ -116,18 +120,23 @@ public class HumanPlayer extends AI{
 						
 					}
 			//		neededCards.get(cardToGet);
+					swag.interrupt();
+
 				}
 				else
 				{
 					if (isEmpty()==false)
 					{
 					initComboChoice(hand, neededCards.size());
+
+			//		return neededCards.get(cardToGet);
+					}
 					while(cardNotChosen)
 					{
 						
 					}
-			//		return neededCards.get(cardToGet);
-					}
+					swag.interrupt();
+
 				}
 			if(isEmpty()==false)
 			{
