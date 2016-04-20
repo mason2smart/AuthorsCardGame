@@ -1,4 +1,5 @@
 import java.awt.Button;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -19,10 +20,11 @@ public class HumanPlayer extends AI{
 	private JComboBox<String> choices;
 	private int cardToGet;
 	private Boolean cardNotChosen;
-	Thread swag;
+
 	public HumanPlayer(int x, ArrayList<String> history)
 	{
 		super(x, history);
+		initHumanPanel();	
 	}
 	public void initPlayerPanel()//each player has own statistics panel
 	{
@@ -35,15 +37,15 @@ public class HumanPlayer extends AI{
 
 				humanFrame = new JFrame();		
 				humanPanel = new JPanel();
-				humanFrame.setVisible(true);
+				humanFrame.setVisible(false);
 				humanFrame.setTitle("Human Player");
-				humanPanel.setSize(300,300);
-				humanFrame.setSize(320, 320);
+				humanPanel.setPreferredSize(new Dimension(300,300));
 				humanPanel.setAlignmentY(TOP_ALIGNMENT);
 				humanPanel.setAlignmentX(RIGHT_ALIGNMENT);
 				humanFrame.add(humanPanel);
 				 humanPanel.add(choices);
 				 humanPanel.add(select);
+				 humanFrame.pack();
 				try//try to get system look for gui interface
 				{
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -55,43 +57,32 @@ public class HumanPlayer extends AI{
 	}}
 	public void closeHumanFrame()
 	{
-		humanPanel.removeAll();
-		humanFrame.dispose();
+		humanFrame.setVisible(false);
+		choices.removeAllItems();
 	}
 	public void initComboChoice(ArrayList<Card> hand, int lim)
 	{
+		
 		cardNotChosen=true;
 		for(int i = 0;i<lim-1;i++)
 		{
 			choices.addItem(hand.get(i).toString());
 		}
+		humanFrame.pack();
+		humanFrame.setVisible(true);
 			select.addActionListener(new ActionListener()
 			{
+				
 				public void actionPerformed(ActionEvent e)
 				{
-					    swag=new Thread(){//does it in new thread not to freeze up GUI() interface
-		                public void run(){
-		                  try {
 			                    select.setText("Requesting Card...");
 			                    cardToGet=choices.getSelectedIndex();
-		                    Thread.sleep(1000);
-							cardNotChosen=false;
-		                    this.interrupt();//ends thread
-		                    while(true)
-		                    {
-		                    System.out.println("Not interrupted!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		                    }
-		                    } catch (InterruptedException exc) {
-		                	 System.out.println("Thread Error on StartGame Btn");
-		               }
-		             }
-		           };swag.start();
+			                    cardNotChosen=false;	             
 				}}	);
 	}
 	public boolean RequestCard(AI robot)//requests card from other player
 	{
 		super.analyzeHand();
-		initHumanPanel();
 		int x = neededCards.size();
 		if(hand.size()==1)//fixes out of bounds error
 		{
@@ -106,7 +97,6 @@ public class HumanPlayer extends AI{
 				{
 					
 				} 
-				swag.interrupt();
 				
 			//	return neededCards.get(primaryPref);
 			}
@@ -120,8 +110,6 @@ public class HumanPlayer extends AI{
 						
 					}
 			//		neededCards.get(cardToGet);
-					swag.interrupt();
-
 				}
 				else
 				{
@@ -135,8 +123,6 @@ public class HumanPlayer extends AI{
 					{
 						
 					}
-					swag.interrupt();
-
 				}
 			if(isEmpty()==false)
 			{
