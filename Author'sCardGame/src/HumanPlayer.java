@@ -43,6 +43,8 @@ public class HumanPlayer extends AI{
 				humanPanel.setAlignmentY(TOP_ALIGNMENT);
 				humanPanel.setAlignmentX(RIGHT_ALIGNMENT);
 				humanFrame.add(humanPanel);
+				humanFrame.setResizable(false);
+				humanFrame.setAlwaysOnTop(true);
 				 humanPanel.add(choices);
 				 humanPanel.add(select);
 				 humanFrame.pack();
@@ -66,7 +68,7 @@ public class HumanPlayer extends AI{
 		cardNotChosen=true;
 		for(int i = 0;i<lim-1;i++)
 		{
-			choices.addItem(hand.get(i).toString());
+			choices.addItem(neededCards.get(i).toString());
 		}
 		humanFrame.pack();
 		humanFrame.setVisible(true);
@@ -76,9 +78,11 @@ public class HumanPlayer extends AI{
 				public void actionPerformed(ActionEvent e)
 				{
 			                    select.setText("Requesting Card...");
+								waits(500);
 			                    cardToGet=choices.getSelectedIndex();
 			                    cardNotChosen=false;	             
 				}}	);
+			select.setText("Submit");
 	}
 	public boolean RequestCard(AI robot)//requests card from other player
 	{
@@ -103,8 +107,8 @@ public class HumanPlayer extends AI{
 			else
 				if(secondaryPref>3)
 				{
-					initComboChoice(hand, primaryPref+secondaryPref);
-					initComboChoice(hand,primaryPref);
+					initComboChoice(neededCards, primaryPref+secondaryPref);
+					initComboChoice(neededCards,primaryPref);
 					while(cardNotChosen)
 					{
 						
@@ -115,7 +119,7 @@ public class HumanPlayer extends AI{
 				{
 					if (isEmpty()==false)
 					{
-					initComboChoice(hand, neededCards.size());
+					initComboChoice(neededCards, neededCards.size());
 
 			//		return neededCards.get(cardToGet);
 					}
@@ -140,6 +144,15 @@ public class HumanPlayer extends AI{
 			closeHumanFrame(); /////////////////////////////////////////////////////////////MAY WANT TO FIND MORE EFFICIENT WAY OF DOING THIS
 			return false;//cannot ask another player for card
 		
+	}
+	
+	public void waits(long waitT)
+	{
+		long endTime=System.currentTimeMillis()+waitT;
+		while (System.currentTimeMillis()<=endTime)
+		{
+			
+		}
 	}
 
 }

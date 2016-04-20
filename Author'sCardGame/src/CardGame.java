@@ -282,6 +282,9 @@ class CardGame extends JFrame {
 				temp.add(NumPlayer);
 				temp.add(Players.get(playerTurn));
 				System.out.println("Player: "+x);
+				NumPlayer.setText("Player " + playerTurn + "'s Turn");//Updates GUI with the player whose JPanel is shown
+				UpdateBooks();
+				this.pack();
 				Players.get(x).initTurn();
 				playerIndex=x+1;
 				histArea.setText(History.toString());				

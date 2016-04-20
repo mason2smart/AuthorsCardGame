@@ -18,7 +18,7 @@ import javax.swing.JSeparator;
 public class AI extends JPanel {
 	public ArrayList<Card> hand;
 	private int handAnalysis[][];
-	public ArrayList<Card> neededCards;
+	protected ArrayList<Card> neededCards;
 	JPanel playerPanel;
 	JScrollPane neededScrollPane;
 	JList<String> neededList;
