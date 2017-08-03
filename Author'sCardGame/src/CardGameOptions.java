@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -25,8 +26,8 @@ public class CardGameOptions extends JFrame {
 	int numInstances;
 	int running;
 	ArrayList<CardGame> Instances;
-	public static final int width = 800;
-	public static final int height = 300;
+	public static double width = 800;
+	public static double height = 300;
 	protected int numGame;
 	JPanel btnPane;
 	JPanel layout;
@@ -36,8 +37,13 @@ public class CardGameOptions extends JFrame {
 	String NumPlayersSelected = "1"; //get number of human players selected combobox
 	private JLabel runningInstances;//will display number of games running
 	private JPanel runInf;
+	private double widthMulti;
+	private double heightMulti;
 	public CardGameOptions()//JCOMBOBOX to be used to select threads to remove?
 	{
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		widthMulti = screenSize.getWidth()/1920;
+		heightMulti = screenSize.getHeight()/1080;
 		layout = new JPanel();
 		btnPane = new JPanel();
 		Instances = new ArrayList<CardGame>();//holds games
@@ -56,20 +62,22 @@ public class CardGameOptions extends JFrame {
 		this.add(layout);
 		this.pack();
         setVisible(true);
-        
-		Thread updateGUI = new Thread(){//loops updater in new thread to constantly update label without interfering with GUI and freezing it
-			public void run()
-			{try{
-				while (true)
+	}
+public void updateGUI() {//loops updater in new thread to constantly update label without interfering with GUI and freezing it
+			int gamesRunning=0;
+			try {
+				for(int i=0; i<=Instances.size(); i++)
 				{
-					runningInstances.setText(" Running Games: "+Instances.size()+" ");
+					if(Instances.get(i).isShowing())
+					gamesRunning++;
 				}
+			}
+			catch(Exception e)
+			{
 				
 			}
-			finally{}
-				}
-			
-		};updateGUI.run();
+		
+					runningInstances.setText(" Running Games: "+gamesRunning+" ");
 	}
 	public void gui()//initiates JPanel
 	{
@@ -81,7 +89,9 @@ public class CardGameOptions extends JFrame {
 		layout.add(btnPane, BorderLayout.NORTH);
         layout.add(new JSeparator(), BorderLayout.CENTER);//separator top and bottom
 		setTitle("Options Menu");//sets window title
-         Dimension preferred = new Dimension(width, height);//preferred dimensions
+		double tempWide = width*widthMulti;
+		double tempHigh = height*heightMulti;
+         Dimension preferred = new Dimension((int)(tempWide), (int)(tempHigh));//preferred dimensions
          this.setResizable(false);//dimensions unchangeable by user
          this.setPreferredSize(preferred);
          setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -91,11 +101,11 @@ public class CardGameOptions extends JFrame {
 
 		startG = new JButton("Start Game");
 		startG.setBorder(BorderFactory.createLineBorder(Color.green, 2, true));//create border around button
-		startG.setPreferredSize(new Dimension(150,100));
-		startG.setSize(320,200);
+		startG.setPreferredSize(new Dimension((int)(150*widthMulti),(int)(100*heightMulti)));
+		startG.setSize((int)(320*widthMulti),(int)(200*heightMulti));
 		try {
 			Font GamerFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("A.ttf"));//set font //getResource Finds Font in Relation to Classpath Location not System32
-			startG.setFont(GamerFont.deriveFont(14f));//derives font size in order to simplify instead of having to register font in a graphics component
+			startG.setFont(GamerFont.deriveFont((float) (16 * widthMulti)));//derives font size in order to simplify instead of having to register font in a graphics component
 		} catch (FontFormatException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -117,6 +127,7 @@ public class CardGameOptions extends JFrame {
 				                    startG.setText("Starting Game...");
 			                    Thread.sleep(2000);
 						           startG.setText("Start Game");
+						           updateGUI();
 			                    this.interrupt();//ends thread
 			                 } catch (InterruptedException exc) {
 			                	 System.out.println("Thread Error on StartGame Btn");
@@ -143,8 +154,8 @@ public class CardGameOptions extends JFrame {
 		Font GamerFont;
 				try {
 					GamerFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("A.ttf"));//set font
-				     SelectorInstructions.setFont(GamerFont.deriveFont(16f));
-				     NumPlayers.setFont(GamerFont.deriveFont(14f));
+				     SelectorInstructions.setFont(GamerFont.deriveFont((float) (16*widthMulti)));
+				     NumPlayers.setFont(GamerFont.deriveFont((float) (14*widthMulti)));
 				} catch (FontFormatException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -178,10 +189,11 @@ public class CardGameOptions extends JFrame {
 		runningInstances.setFont(NumPlayers.getFont());
 	}
 	
+	
 	public void Newgame(int NumPlayers)//using an array list instead of event pool to keep things simple
 	{
 				numGame++;
 		
-				new CardGame(Instances.size(), NumPlayers, Instances);	
+				Instances.add(new CardGame(Instances.size()+1, NumPlayers, Instances));	
 	}
 }
