@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -35,6 +36,7 @@ import sun.awt.shell.ShellFolder.Invoker;
 class CardGame extends JFrame {
 //	protected JComboBox<String> CardOptions;
 	Runnable runRotation;
+	
 	public static final int width = 800;
 	public static final int height = 800;
 	ArrayList<AI> Players;
@@ -60,8 +62,16 @@ class CardGame extends JFrame {
 	boolean gameOver = false;//if all players out of hands = true
    	Thread Rotation;
    	private int playerturn;
+   	public static double heightMulti;
+
+	public static double widthMulti;
    	public CardGame(int numGame, int numPlayers, ArrayList<CardGame> CG) 
 	{	
+
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		widthMulti = screenSize.getWidth()/1920;
+		heightMulti = screenSize.getHeight()/1080;
+		
    	  addWindowListener(new WindowAdapter(){//when closed
       	public void windowClosing(WindowEvent e){
       		StillRunning=false;//kill threads in this class
@@ -159,10 +169,10 @@ class CardGame extends JFrame {
 		histArea = new JTextArea();
 		histArea = new JTextArea(History.toString(),5,50);
    	    histArea.setLineWrap(true);
-   	    histArea.setSize(new Dimension(200,400));
-   	    histArea.setPreferredSize(new Dimension(200,30000));
+   	    histArea.setSize(new Dimension((int)(200*widthMulti),(int)(400*heightMulti)));
+   	    histArea.setPreferredSize(new Dimension((int)(widthMulti*200),(int)(heightMulti*30000)));
 		histPane = new JScrollPane(histArea);//adds text area
-		histPane.setPreferredSize(new Dimension(200,390));
+		histPane.setPreferredSize(new Dimension((int)(widthMulti*200),(int)(heightMulti*390)));
 		histPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);//add scrollbar
 
 
@@ -172,8 +182,8 @@ class CardGame extends JFrame {
 	{
 		try {
 			GamerFont = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("A.ttf"));//set font
-		     NumPlayer.setFont(GamerFont.deriveFont(16f));
-		     Books.setFont(GamerFont.deriveFont(14f));
+		     NumPlayer.setFont(GamerFont.deriveFont((float)(16*widthMulti)));
+		     Books.setFont(GamerFont.deriveFont((float)(14*widthMulti)));
 		} catch (FontFormatException e1) {
 			e1.printStackTrace();} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -182,7 +192,7 @@ class CardGame extends JFrame {
 		Books.setLayout(new GridLayout(2,4));
 		Books.setAlignmentY(CENTER_ALIGNMENT);
 		Books.setAlignmentX(CENTER_ALIGNMENT);
-		Books.setPreferredSize(new Dimension(WIDTH, 100));
+		Books.setPreferredSize(new Dimension((int)(WIDTH*widthMulti), (int)(heightMulti*100)));
 		gameHistory();
 		Books.setBackground(Color.darkGray);
 		DispBooks();
@@ -196,7 +206,7 @@ class CardGame extends JFrame {
 		layout.add(btnPane, BorderLayout.NORTH);
      //   layout.add(new JSeparator(), BorderLayout.CENTER);//separator top and bottom
 		setTitle("Card Game #"+numGame);//sets window title
-         Dimension preferred = new Dimension(width, height);//preferred dimensions
+         Dimension preferred = new Dimension((int)(widthMulti*width),(int)(heightMulti*height));//preferred dimensions
          this.setResizable(false);//dimensions unchangeable by user
          this.setPreferredSize(preferred);
         // setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);//or JFrame.Exit_ON_CLOSE// keeps entire system from exiting on close
@@ -213,7 +223,7 @@ class CardGame extends JFrame {
 			{
 			BooksList.add(new JLabel("Human   "+ x + "   Books Made:  "+(Players.get(x).Books.size()/4+ "     ")));
 			}
-			BooksList.get(x).setFont(GamerFont.deriveFont(14f));
+			BooksList.get(x).setFont(GamerFont.deriveFont((float)(14*widthMulti)));
 			BooksList.get(x).setForeground(Color.green);
 			BooksList.get(x).setPreferredSize(new Dimension(200,200));
 			Books.add(BooksList.get(x));
@@ -231,9 +241,9 @@ class CardGame extends JFrame {
 			{
 			BooksList.set(x, new JLabel("Human   "+ x + "   Books Made:  "+(Players.get(x).Books.size()/4+ "     ")));
 			}
-			BooksList.get(x).setFont(GamerFont.deriveFont(14f));
+			BooksList.get(x).setFont(GamerFont.deriveFont((float)(14*widthMulti)));
 			BooksList.get(x).setForeground(Color.green);
-			BooksList.get(x).setPreferredSize(new Dimension(200,200));
+			BooksList.get(x).setPreferredSize(new Dimension((int)(200*widthMulti),(int)(200*heightMulti)));
 			Books.remove(x);
 			Books.add(BooksList.get(x), x);
 			Books.repaint();
