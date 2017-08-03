@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -83,7 +84,7 @@ public void initArrays()
 public void initPlayerPanel()//each player has own statistics panel
 {
 	JPanel SuperPanel = new JPanel();
-	SuperPanel.setPreferredSize(new Dimension(400,800));
+	SuperPanel.setPreferredSize(new Dimension((int)(400*CardGame.widthMulti),(int)(800*CardGame.heightMulti)));
 	SuperPanel.setLayout(new FlowLayout(3,50,5));//alignment, horizontal gap, vertical gap
 	playerPanel = new JPanel();
 	playerPanel.setLayout(new GridLayout(1,1));//grid layout for pane for adding buttons - sets number of rows
