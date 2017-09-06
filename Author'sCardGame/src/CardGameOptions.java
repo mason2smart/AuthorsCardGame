@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -116,19 +115,20 @@ public void updateGUI() {//loops updater in new thread to constantly update labe
 		btnPane.add(startG,BorderLayout.WEST);
 		startG.addActionListener(new ActionListener()
 				{
-					public void actionPerformed(ActionEvent e)
+					@Override
+               public void actionPerformed(ActionEvent e)
 					{
 						startG.setText("Starting Game....");	
 						int numberPlayers = Integer.parseInt(NumPlayersSelected);
 						Newgame(numberPlayers);//initiates new game;
 			            new Thread(){//does it in new thread not to freeze up GUI() interface
-			                public void run(){
+			                @Override
+                        public void run(){
 			                  try {
 				                    startG.setText("Starting Game...");
 			                    Thread.sleep(2000);
 						           startG.setText("Start Game");
 						           updateGUI();
-			                    this.interrupt();//ends thread
 			                 } catch (InterruptedException exc) {
 			                	 System.out.println("Thread Error on StartGame Btn");
 			               }
@@ -144,7 +144,8 @@ public void updateGUI() {//loops updater in new thread to constantly update labe
 		NumPlayers.setSelectedIndex(0);
 		NumPlayers.addActionListener(new ActionListener()
 		{
-			public void actionPerformed(ActionEvent e) {
+			@Override
+         public void actionPerformed(ActionEvent e) {
 		        NumPlayersSelected = (String) NumPlayers.getSelectedItem();//gets currently selected number of human players
 			}});
 	   ((JLabel) (NumPlayers).getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);//Center objects in Drop-Down Box

@@ -1,11 +1,8 @@
-import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Random;
 
-import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -26,7 +23,8 @@ public class HumanPlayer extends AI{
 		super(x, history);
 		initHumanPanel();	
 	}
-	public void initPlayerPanel()//each player has own statistics panel
+	@Override
+   public void initPlayerPanel()//each player has own statistics panel
 	{
 		super.initPlayerPanel();
 	}
@@ -64,7 +62,6 @@ public class HumanPlayer extends AI{
 	}
 	public void initComboChoice(ArrayList<Card> hand, int lim)
 	{
-		
 		cardNotChosen=true;
 		for(int i = 0;i<lim-1;i++)
 		{
@@ -75,31 +72,43 @@ public class HumanPlayer extends AI{
 			select.addActionListener(new ActionListener()
 			{
 				
-				public void actionPerformed(ActionEvent e)
+				@Override
+            public void actionPerformed(ActionEvent e)
 				{
 			                    select.setText("Requesting Card...");
-								waits(500);
 			                    cardToGet=choices.getSelectedIndex();
-			                    cardNotChosen=false;	             
+			                    new Thread() {
+			                       @Override
+                              public void run(){
+		                           cardNotChosen=false;
+			                       }
+			                    }.run();
 				}}	);
+			
 			select.setText("Submit");
 	}
-	public boolean RequestCard(AI robot)//requests card from other player
+	@Override
+   public boolean RequestCard(AI robot)//requests card from other player
 	{
+	   cardNotChosen=true;
 		super.analyzeHand();
+		waits(500);
 		int x = neededCards.size();
 		if(hand.size()==1)//fixes out of bounds error
 		{
 			cardToGet=0;
 		}
 		else
-			
 		if (primaryPref>3)
 			{
 				initComboChoice(hand,primaryPref);
 				while(cardNotChosen)
 				{
-					
+				   waits(500); //refreshes while loop
+            //   if (System.currentTimeMillis()%10==0)
+              // {
+               //   System.out.println("card-not-chosen loop");
+               //}
 				} 
 				
 			//	return neededCards.get(primaryPref);
@@ -108,10 +117,9 @@ public class HumanPlayer extends AI{
 				if(secondaryPref>3)
 				{
 					initComboChoice(neededCards, primaryPref+secondaryPref);
-					initComboChoice(neededCards,primaryPref);
 					while(cardNotChosen)
 					{
-						
+		             waits(500); //refreshes while loop
 					}
 			//		neededCards.get(cardToGet);
 				}
@@ -125,7 +133,8 @@ public class HumanPlayer extends AI{
 					}
 					while(cardNotChosen)
 					{
-						
+	               waits(500); //refreshes while loop
+
 					}
 				}
 			if(isEmpty()==false)

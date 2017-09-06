@@ -6,32 +6,19 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-
-import sun.awt.shell.ShellFolder.Invoker;
 
 class CardGame extends JFrame {
 //	protected JComboBox<String> CardOptions;
@@ -73,7 +60,8 @@ class CardGame extends JFrame {
 		heightMulti = screenSize.getHeight()/1080;
 		
    	  addWindowListener(new WindowAdapter(){//when closed
-      	public void windowClosing(WindowEvent e){
+      	@Override
+         public void windowClosing(WindowEvent e){
       		StillRunning=false;//kill threads in this class
       		for(int x=0; x<Players.size();x++)
       		{
@@ -84,7 +72,8 @@ class CardGame extends JFrame {
 	
    		History = new ArrayList<String>()   				
    		{
-   					public String toString()//overrides toString to make it a multi-line list
+   					@Override
+                  public String toString()//overrides toString to make it a multi-line list
    					{
    						String returns = "";
    						for (int x=0;x<this.size();x++)
@@ -121,7 +110,8 @@ class CardGame extends JFrame {
 		this.pack();
         setVisible(true);//sets Jframe visible
         Rotation = new Thread(){//constantly rotates through players
-			public void run()
+			@Override
+         public void run()
 			{	
 				while(StillRunning)
 			{
@@ -132,7 +122,8 @@ class CardGame extends JFrame {
 		};Rotation.start();
 		Thread CheckforWinner = new Thread()//checks to see if all players are out of hands
 				{
-					public void run()
+					@Override
+               public void run()
 					{
 					while(StillRunning)
 					{
@@ -292,7 +283,7 @@ class CardGame extends JFrame {
 				temp.add(NumPlayer);
 				temp.add(Players.get(playerTurn));
 				System.out.println("Player: "+x);
-				NumPlayer.setText("Player " + playerTurn + "'s Turn");//Updates GUI with the player whose JPanel is shown
+            NumPlayer.setText("Player " + playerTurn + "'s Turn");//Updates GUI with the player whose JPanel is shown
 				UpdateBooks();
 				this.pack();
 				Players.get(x).initTurn();
@@ -328,7 +319,8 @@ class CardGame extends JFrame {
 					playerIndex++;
 					Thread wait = new Thread()
 					{
-						public void run()
+						@Override
+                  public void run()
 						{
 						try {
 							Thread.sleep(750);
@@ -341,7 +333,7 @@ class CardGame extends JFrame {
 					}
 					else//if the hand is now empty
 					{
-						gotACard=false;
+						gotACard=false; //player doesn't get another turn
 					
 					}
 				}
@@ -350,7 +342,8 @@ class CardGame extends JFrame {
 				this.pack();
 				Thread wait = new Thread()
 				{
-					public void run()
+					@Override
+               public void run()
 					{
 					try {
 						Thread.sleep(4000);
