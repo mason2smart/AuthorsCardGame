@@ -1,20 +1,15 @@
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 
 public class AI extends JPanel {
 	private ArrayList<Card> hand;
@@ -55,7 +50,8 @@ public void initArrays()
 	NeededCard = new String[]{"Loading..."};
 	hand = new ArrayList<Card>()
 			{
-		public String toString()
+		@Override
+      public String toString()
 		{
 			String returns = "";
 			for(Card element: this)
@@ -70,7 +66,8 @@ public void initArrays()
 	handAnalysis = new int[13][5];
 	neededCards=new ArrayList<Card>()
 			{
-				public String toString()
+				@Override
+            public String toString()
 				{
 					String returns = "";
 					for(Card element: this)
@@ -204,7 +201,8 @@ public void updateGUI()//refreshes gui by running analyze hand and pushing resul
 { 
 	Thread pushGui = new Thread()
 		{
-	public void run()
+	@Override
+   public void run()
 	{
 		while (StillRunning)
 		{
@@ -236,7 +234,8 @@ public void bookSearch()//******************may want to run and repeat ANALYZE H
 	removeLoc = new ArrayList<Integer>();
 	Thread cardIndexer = new Thread()
 			{
-		public void run()
+		@Override
+      public void run()
 		{
 			for (int x=0; x<handAnalysis.length;x++)//pull out books
 			{		
@@ -325,7 +324,7 @@ public boolean RequestCard(AI robot)//requests card from other player
 			}
 			else
 			{
-				if (isEmpty()==false)
+				if (hand.size()>1)//if size is greater than 1 than still can pick between cards
 				{
 				cardToGet = randy.nextInt(neededCards.size());
 		//		return neededCards.get(cardToGet);

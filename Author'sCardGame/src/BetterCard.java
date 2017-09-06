@@ -4,6 +4,19 @@ public class BetterCard extends Card { //adds a method to compare card objects
    public BetterCard(int cardRankNum, int CardSuitNum) {
       super(cardRankNum, CardSuitNum);
    }
+
+   /**
+    * Get the String for this card's rank.
+    * The rank is a one-character String: A for ace, 2 for 2, ..., 9 for 9,
+    * X for 10, J for jack, Q for queen and K for king.
+    *
+    * @return the String for this card's rank
+    */
+   @Override
+   public String rank() {
+      return super.rank();
+   }
+
    public BetterCard(Card MyCard)//take a card, trash it, and use values to create a new and better card
    {
       super(MyCard.rankNum(), MyCard.suitNum());
