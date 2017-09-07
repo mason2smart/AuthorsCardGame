@@ -335,7 +335,10 @@ class CardGame extends JFrame {
 				UpdateBooks();
 				this.pack();
 				Long waitTurn=System.currentTimeMillis()+2000;
-            while(waitTurn>=System.currentTimeMillis()) //wait between turns
+            while(waitTurn>=System.currentTimeMillis())
+            {
+               
+            }
 					this.pack();
 					
 			}}}
