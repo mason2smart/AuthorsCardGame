@@ -270,7 +270,7 @@ class CardGame extends JFrame {
 	}
 	public void rotatePlayers()//rotates through players turns and refreshes gui
 	{  
-		while(!gameOver)
+		while(!gameOver&&StillRunning)
 		{
 		for(int x=0; x<Players.size();x++)
 			{	
@@ -289,7 +289,7 @@ class CardGame extends JFrame {
 				Players.get(x).initTurn();
 				playerIndex=x+1;
 				histArea.setText(History.toString());				
-				while(gotACard && !gameOver){
+				while(gotACard && !gameOver && StillRunning){
 					int stopWhile=0;
 					while (playerIndex<=Players.size()&&stopWhile==0)
 					{
@@ -312,24 +312,18 @@ class CardGame extends JFrame {
 						playerIndex++;
 						}
 					}
-					if (!gameOver && Players.get(x).isEmpty()==false)
+					if (!gameOver && Players.get(x).isEmpty()==false && StillRunning)
 					{
 					gotACard = Players.get(playerTurn).RequestCard(Players.get(playerIndex));//request card is a boolean so will return if card requested was recieved
 					System.out.println("looking in Player "+ playerIndex);
 					playerIndex++;
-					Thread wait = new Thread()
+		          UpdateBooks();
+		            this.pack();
+					Long waitTurn=System.currentTimeMillis()+2000;
+					while(waitTurn>=System.currentTimeMillis()) //wait between turns
 					{
-						@Override
-                  public void run()
-						{
-						try {
-							Thread.sleep(750);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						}
-						};wait.run();
+					   
+					}
 					}
 					else//if the hand is now empty
 					{
@@ -340,19 +334,8 @@ class CardGame extends JFrame {
 				NumPlayer.setText("Player " + playerTurn + "'s Turn");//Updates GUI with the player whose JPanel is shown
 				UpdateBooks();
 				this.pack();
-				Thread wait = new Thread()
-				{
-					@Override
-               public void run()
-					{
-					try {
-						Thread.sleep(4000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					}
-					};wait.run();
+				Long waitTurn=System.currentTimeMillis()+2000;
+            while(waitTurn>=System.currentTimeMillis()) //wait between turns
 					this.pack();
 					
 			}}}
