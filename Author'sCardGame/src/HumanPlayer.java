@@ -151,6 +151,7 @@ public class HumanPlayer extends AI{
 		if(hand.size()==1)//fixes out of bounds error
 		{
 			cardToGet=0;
+			cardNotChosen=false;
 		}
 		else
 		if (primaryPref>3)
@@ -168,7 +169,7 @@ public class HumanPlayer extends AI{
 			//	return neededCards.get(primaryPref);
 			}
 			else
-				if(secondaryPref>3)
+				if(secondaryPref+primaryPref>3)
 				{
 					initComboChoice(neededCards, primaryPref+secondaryPref);
 					while(cardNotChosen)
@@ -179,7 +180,7 @@ public class HumanPlayer extends AI{
 				}
 				else
 				{
-					if (isEmpty()==false)
+					if (hand.size()>1)
 					{
 					initComboChoice(neededCards, neededCards.size());
 
