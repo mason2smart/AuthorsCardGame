@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -14,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+
+import sun.tools.jar.Main;
 
 
 public class HumanPlayer extends AI{
@@ -113,16 +116,17 @@ public class HumanPlayer extends AI{
 	}
 	public void addImage(){
 		Thread a = new Thread(){
-			public void run(){
+			@Override
+         public void run(){
 				while(cardNotChosen)
 				{
 					try
 					{
 						String newCard = (neededCards.get(choices.getSelectedIndex()).rank()+neededCards.get(choices.getSelectedIndex()).suit());
 						if(!(newCard.equals(card))){
-							String filename = ("cards_jpeg/" + newCard + ".jpg");
-							System.out.println(filename);
-							ImageIcon imgIco = new ImageIcon(filename);
+						   URL url = Main.class.getResource("/resources/cards_jpeg/"+newCard+".jpg");							
+						   System.out.println(url);
+							ImageIcon imgIco = new ImageIcon(url);
 							imgIco.setImage(imgIco.getImage().getScaledInstance((int) Math.ceil(imgIco.getIconWidth()/3*2), (int) Math.ceil(imgIco.getIconHeight()/3*2), Image.SCALE_DEFAULT));
 							System.out.println(imgIco.getDescription());
 							System.out.println("ICON WIDTH" + imgIco.getIconWidth());
